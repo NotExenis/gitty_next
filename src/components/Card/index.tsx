@@ -1,22 +1,14 @@
-import React from 'react';
+'use client';
 
-import { Roboto_Mono } from 'next/font/google'
+import React from "react";
 
-export const roboto_mono = Roboto_Mono({
-    subsets: ['latin'],
-    display: 'swap',
-})
-
-interface CardProps {
-    heading: string;
-}
-
-const Card: React.FC<CardProps> = ({ heading }) => {
-
+const Card: React.FC<{ width: string; height: string; children: React.ReactNode }> = ({ width, height, children }) => {
     return (
         <div
-            className={roboto_mono.className + " flex items-center justify-center bg-neutral-800/75 rounded-lg shadow-lg w-28 h-10 text-white transition duration-100 ease-in hover:bg-neutral-700/50 hover:scale-105"}>
-            {heading}
+            style={{ width: `${width}px`, height: `${height}px` }}
+            className="flex flex-col bg-neutral-900 border-2 border-neutral-600/50 shadow-lg shadow-neutral-900 rounded-xl"
+        >
+            {children}
         </div>
     );
 };

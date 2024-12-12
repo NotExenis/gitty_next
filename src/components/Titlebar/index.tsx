@@ -6,7 +6,7 @@ import velocityLogo from '../../../public/velocity.png';
 import { VscAccount } from "react-icons/vsc";
 import { Button } from "@headlessui/react";
 import Link from "next/link";
-import Card from "@/components/Card";
+import TextButton from "../TextButton";
 
 const Titlebar: React.FC = () => {
 
@@ -15,7 +15,7 @@ const Titlebar: React.FC = () => {
     }
 
     return (
-        <nav className="flex items-center justify-between bg-black/20 shadow-md shadow-neutral-900/50 h-20"
+        <nav className="flex items-center justify-between bg-black/50 shadow-md shadow-neutral-900/75 h-20"
              style={{['WebkitAppRegion' as string]: 'drag'}}>
 
             <div className="flex items-center space-x-5">
@@ -32,13 +32,13 @@ const Titlebar: React.FC = () => {
 
             <div className="absolute left-1/2 transform -translate-x-1/2 flex flex-row space-x-14">
                 <Link href="/" className="flex justify-center items-center">
-                    <Card heading="HOME" />
+                    <TextButton heading="HOME" />
                 </Link>
                 <Link href="/products" className="flex justify-center items-center">
-                    <Card heading="PRODUCTS" />
+                    <TextButton heading="PRODUCTS" />
                 </Link>
                 <Link href="/changelog" className="flex g justify-center items-center">
-                    <Card heading="CHANGELOG" />
+                    <TextButton heading="CHANGELOG" />
                 </Link>
             </div>
 

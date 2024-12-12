@@ -15,12 +15,24 @@
 }
 
 body {
-  background: linear-gradient(0deg, rgba(26, 24, 24, 0.95), rgba(26, 24, 24, 0.95)), url('../../public/background.jpg'); /* Path relative to the static folder */
-  background-size: cover;       /* Cover the entire element */
-  background-position: center;  /* Center the image */
-  background-repeat: no-repeat; /* Prevent repeating */
-  min-height: 100vh;            /* Full viewport height */
+  position: relative; /* Ensure positioning for the pseudo-element */
+  margin: 0;
   font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent scrollbars from pseudo-element */
+}
+
+body::before {
+  content: ''; /* Create a pseudo-element */
+  position: absolute; /* Position it relative to the body */
+  top: -20px; /* Extend slightly beyond the viewport */
+  left: -20px; /* Extend slightly beyond the viewport */
+  right: -20px; /* Extend slightly beyond the viewport */
+  bottom: -20px; /* Extend slightly beyond the viewport */
+  background: linear-gradient(0deg, rgba(26, 24, 24, 0.60), rgba(26, 24, 24, 0.60)), url('../../public/background.jpg') no-repeat center center;
+  background-size: cover; /* Cover the entire area */
+  filter: blur(7px); /* Add blur effect */
+  z-index: -1; /* Place it behind the body content */
 }
 
 @layer utilities {
@@ -44,4 +56,24 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   animation: rgb-flow 3s ease infinite;
+}
+
+@keyframes snow-fall {
+  0% {
+    transform: translateY(-100%) translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) translateX(10px);
+    opacity: 0;
+  }
+}
+
+.snowflake {
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  opacity: 0.8;
+  animation: snow-fall linear infinite;
 }
