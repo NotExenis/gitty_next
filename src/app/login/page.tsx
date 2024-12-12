@@ -3,7 +3,7 @@
 import { Ubuntu } from "next/font/google";
 import {Button} from "@headlessui/react";
 
-export const ubuntu = Ubuntu({
+const ubuntu = Ubuntu({
     weight: "500",
     subsets: ['latin'],
     display: 'swap',
