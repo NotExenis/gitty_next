@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "@ts-rex/bcrypt": "jsr:@ts-rex/bcrypt@^1.0.3"
+  }
+}

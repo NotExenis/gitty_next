@@ -4,7 +4,7 @@ const config = {
     host: "localhost",
     user: "root",
     password: "root",
-    database: " freshweb",
+    database: "freshweb",
     port: 3306
 }
 
