@@ -1,10 +1,10 @@
 'use server'
 
+import { redirect } from 'next/navigation';
 import { registerSchema, formState } from "../../../interfaces/interfaces";
 import { connect } from "../../../private/connection";
-import * as bcrypt from "@ts-rex/bcrypt";
 
-export default async function registerAction (state: formState, formData: FormData){
+export default async function registerAction (_state: formState, formData: FormData){
     const validatedFields = registerSchema.safeParse({
         email: formData.get('email'),
         password: formData.get('password'),
@@ -18,8 +18,11 @@ export default async function registerAction (state: formState, formData: FormDa
     }
 
     let conn = await connect();
+
     const email = formData.get('email');
     const password = formData.get('password');
+
+    const bcrypt = require('bcrypt');
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const [existingUser] = await conn.execute(
@@ -28,21 +31,7 @@ export default async function registerAction (state: formState, formData: FormDa
     )
 
     if(Array.isArray(existingUser) && existingUser.length > 0) {
-        fetch('http://localhost:3000/register', {
-            method: "POST",
-            body: JSON.stringify({ 
-                email: email,
-                error: "The email is already in use",
-            }),
-            headers: {
-              "content-type": "application/json",
-            },
-        }).then(() => {
-            return new Response(null, {
-                status: 302,
-                headers: { location: "/register" }
-            })
-        });
+       return; // TODO: show error on client possibly a post request or either in session mangement
     };
 
     await conn.execute(
@@ -51,8 +40,5 @@ export default async function registerAction (state: formState, formData: FormDa
     );
 
     await conn.end();
-    return new Response(null, {
-        status: 302,
-        headers: { location: "/login" }
-    })
+    redirect('/login');
 }
