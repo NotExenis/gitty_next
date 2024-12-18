@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { JWTPayload } from 'jose';
+
 
 export const registerSchema = z.object({
     email: z
@@ -16,6 +18,15 @@ export const registerSchema = z.object({
     .trim(),
 })
 
+export const loginSchema = z.object({
+    email: z
+    .string()
+    .min(1, {message: "Fill in your email"}),
+    password: z
+    .string()
+    .min(1, {message: "Fill in your password"})
+})
+
 export type formState = | {
     errors?: {
         email?: string[]
@@ -24,3 +35,10 @@ export type formState = | {
     }
     message?: string
 } | undefined
+
+
+export interface SessionPayload extends JWTPayload {
+    user_role: string,
+    userId: string,
+    expiresAt: Date
+}

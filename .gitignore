@@ -38,3 +38,6 @@ next-env.d.ts
 private/connection.ts
 connection.ts
 /private/connection.ts
+.env
+/private/*.ts
+*.ts
