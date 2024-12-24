@@ -34,10 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-/private
 private/connection.ts
 connection.ts
 /private/connection.ts
 .env
-/private/*.ts
-*.ts
