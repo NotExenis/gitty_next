@@ -4,6 +4,8 @@ import { Ubuntu } from "next/font/google";
 import {Button} from "@headlessui/react";
 import Card from "@/components/Card";
 import TextButton from "@/components/TextButton";
+import { useActionState } from "react";
+import { signIn } from "../actions/login";
 
 const ubuntu = Ubuntu({
     weight: "500",
@@ -12,6 +14,7 @@ const ubuntu = Ubuntu({
 })
 
 export default function Login() {
+    const [state, action, pending] = useActionState(signIn, undefined);
     return (
       <div>
         <section>
@@ -19,7 +22,7 @@ export default function Login() {
                 <Card width="550" height="425">
                     <div className="flex flex-col items-center justify-center">
                         <label htmlFor="string" className={ubuntu.className + " p-4 text-xl text-white"}>SIGN IN TO YOUR ACCOUNT</label>
-                        <form className="items-center justify-center" method="POST">
+                        <form className="items-center justify-center" method="POST" action={action}>
                             <div>
                                 <label
                                     htmlFor="email"

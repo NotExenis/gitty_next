@@ -1,8 +1,7 @@
 'use server'
-
 import { redirect } from 'next/navigation';
 import { registerSchema, formState } from "../../../interfaces/interfaces";
-import { connect } from "../../../private/connection";
+import { connect } from "../private/connection";
 
 export default async function registerAction (_state: formState, formData: FormData){
     const validatedFields = registerSchema.safeParse({

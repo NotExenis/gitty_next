@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { JWTPayload } from 'jose';
+import { RowDataPacket } from 'mysql2';
+
 
 
 export const registerSchema = z.object({
@@ -41,4 +43,11 @@ export interface SessionPayload extends JWTPayload {
     user_role: string,
     userId: string,
     expiresAt: Date
+}
+
+export interface User extends RowDataPacket {
+    user_email: string,
+    user_id: string,
+    user_role: string,
+    user_password: string
 }
