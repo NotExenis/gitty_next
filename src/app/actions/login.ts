@@ -9,7 +9,7 @@ export async function signIn(_state: formState, formData: FormData){
         email: formData.get('email'),
         password: formData.get('password'),
     })
-console.log(2)
+    
     if(!validatedFields.success){
         console.log("empty fields")
         return {
@@ -35,7 +35,7 @@ console.log(2)
         console.log('mismatch')
         return //TODO:: return error message email/password are incorrect
     }
-console.log(1)
+
     await createSession(user_id, user_role)
     redirect('/loggedin/profile')
 }
