@@ -9,7 +9,7 @@ export async function signIn(_state: formState, formData: FormData){
         email: formData.get('email'),
         password: formData.get('password'),
     })
-    
+
     if(!validatedFields.success){
         console.log("empty fields")
         return {
@@ -32,7 +32,6 @@ export async function signIn(_state: formState, formData: FormData){
     const isMatch = await bcrypt.compare(password, user_password);
 
     if(!isMatch){
-        console.log('mismatch')
         return //TODO:: return error message email/password are incorrect
     }
 
