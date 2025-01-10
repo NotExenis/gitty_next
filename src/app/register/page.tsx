@@ -13,7 +13,7 @@ const ubuntu = Ubuntu({
     display: 'swap',
 })
 
-export default function Login() {
+export default function Register() {
     const [state, action, pending] = useActionState(registerAction, undefined);
     return (
         <form action={action}>
