@@ -1,7 +1,7 @@
 'use server'
 import { createSession } from '../private/session'
 import { formState, loginSchema, User } from '../../../interfaces/interfaces'
-import { connect } from '../private/connection';
+import { connect } from '../../../private/connection';
 import { redirect } from 'next/navigation';
 
 export async function signIn(_state: formState, formData: FormData){
