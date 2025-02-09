@@ -17,10 +17,11 @@ export async function signIn(_state: formState, formData: FormData){
         }
     }
 
-    let conn = await connect();
+    const conn = await connect();
     const email = formData.get('email');
     const password = formData.get('password');
-    const bcrypt = require('bcrypt');
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const bcrypt = require('bcryptjs');
 
     const [rows] = await conn.execute<User[]>(
         'SELECT user_email, user_password, user_id, user_role FROM tbl_users WHERE user_email = ?',

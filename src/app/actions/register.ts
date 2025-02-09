@@ -16,12 +16,13 @@ export default async function registerAction (_state: formState, formData: FormD
         }
     }
 
-    let conn = await connect();
+    const conn = await connect();
 
     const email = formData.get('email');
     const password = formData.get('password');
 
-    const bcrypt = require('bcrypt');
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const bcrypt = require('bcryptjs');
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const [existingUser] = await conn.execute(

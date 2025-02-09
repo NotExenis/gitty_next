@@ -7,13 +7,37 @@ import { VscAccount } from "react-icons/vsc";
 import { Button } from "@headlessui/react";
 import Link from "next/link";
 import TextButton from "../TextButton";
+import {
+    adminNavigation,
+    guestNavigation,
+    userNavigation,
+} from "../../utils/navigation.ts";
 
-const Titlebar: React.FC = () => {
+const Titlebar: React.FC<{role: string}> = (r) => {
+
+    const role = r?.role;
+    const navigationItems = {
+        guest: guestNavigation,
+        user: userNavigation,
+        admin: adminNavigation,
+    };
+
+    const getNavigationForRole = (role: string) => {
+        switch (role?.toLowerCase()) {
+            case "admin":
+                return navigationItems.admin;
+            case "user":
+                return navigationItems.user;
+            default:
+                return navigationItems.guest;
+        }
+    };
 
     const accountHandle = () => {
         // TODO: check if logged in, if not route to /login otherwise do a dropdown menu
     }
 
+    const currentNavigation = getNavigationForRole(role);
     return (
         <nav className="flex items-center justify-between bg-black/50 shadow-md shadow-neutral-900/75 h-20"
              style={{['WebkitAppRegion' as string]: 'drag'}}>
@@ -31,15 +55,13 @@ const Titlebar: React.FC = () => {
             </div>
 
             <div className="absolute left-1/2 transform -translate-x-1/2 flex flex-row space-x-14">
-                <Link href="/" className="flex justify-center items-center">
-                    <TextButton heading="HOME" />
-                </Link>
-                <Link href="/products" className="flex justify-center items-center">
-                    <TextButton heading="PRODUCTS" />
-                </Link>
-                <Link href="/changelog" className="flex g justify-center items-center">
-                    <TextButton heading="CHANGELOG" />
-                </Link>
+                {currentNavigation.map((item) => {
+                    return (
+                        <Link key={item.name} href={item.href} className="flex justify-center items-center">
+                            <TextButton heading={item.name}></TextButton>
+                        </Link>
+                    )
+                })}
             </div>
 
             <Button onClick={accountHandle} className="flex flex-row right-0 items-center justify-center space-x-5 h-full w-52 transition duration-300 ease-in-out hover:bg-neutral-700/50">
