@@ -1,4 +1,8 @@
 {
+  "lock": false
+}
+
+{
   "version": "4",
   "specifiers": {
     "jsr:@ts-rex/bcrypt@^1.0.3": "1.0.3",
