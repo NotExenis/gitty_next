@@ -3,47 +3,56 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 body {
-  position: relative; /* Ensure positioning for the pseudo-element */
+  position: relative;
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
-  min-height: 100vh; /* Full viewport height */
-  overflow: hidden; /* Prevent scrollbars from pseudo-element */
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: var(--background);
+  color: var(--foreground);
 }
 
+/* Background with blur and vignette */
 body::before {
-  content: ''; /* Create a pseudo-element */
-  position: absolute; /* Position it relative to the body */
-  top: -20px; /* Extend slightly beyond the viewport */
-  left: -20px; /* Extend slightly beyond the viewport */
-  right: -20px; /* Extend slightly beyond the viewport */
-  bottom: -20px; /* Extend slightly beyond the viewport */
-  background: linear-gradient(0deg, rgba(26, 24, 24, 0.60), rgba(26, 24, 24, 0.60)), url('../../public/background.jpg') no-repeat center center;
-  background-size: cover; /* Cover the entire area */
-  filter: blur(7px); /* Add blur effect */
-  z-index: -1; /* Place it behind the body content */
+  content: '';
+  position: fixed; /* Fixed so it doesn't scroll away */
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: 
+    radial-gradient(circle at center, rgba(10, 10, 10, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%),
+    url('/background.jpg') no-repeat center center;
+  background-size: cover;
+  filter: blur(8px);
+  z-index: -1;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+  
+  .glass {
+    @apply bg-black/30 backdrop-blur-md border border-white/10 shadow-xl;
+  }
+  
+  .glass-hover {
+    @apply hover:bg-white/10 transition-all duration-300;
+  }
 }
 
 @keyframes rgb-flow {
   0% {
-    background-position: 300% 50%;
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
   100% {
     background-position: 0% 50%;
@@ -51,29 +60,19 @@ body::before {
 }
 
 .rgb-flow-gradient {
-  background: linear-gradient(270deg, #ff0080, #00ffcc, #00aaff, #ff0080);
-  background-size: 150% 150%;
+  background: linear-gradient(270deg, #3b82f6, #06b6d4, #8b5cf6, #3b82f6);
+  background-size: 300% 300%;
   -webkit-background-clip: text;
   background-clip: text;
-  animation: rgb-flow 3s ease infinite;
+  color: transparent;
+  animation: rgb-flow 8s ease infinite;
 }
 
-@keyframes snow-fall {
-  0% {
-    transform: translateY(-100%) translateX(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(100vh) translateX(10px);
-    opacity: 0;
-  }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
-.snowflake {
-  position: absolute;
-  background-color: white;
-  border-radius: 50%;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-  opacity: 0.8;
-  animation: snow-fall linear infinite;
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
