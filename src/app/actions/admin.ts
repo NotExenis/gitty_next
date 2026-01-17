@@ -86,25 +86,21 @@ export async function grantProduct(email: string, productId: string, duration: s
 
     const conn = await connect();
     try {
-        // 1. Get User ID from email
         const [users] = await conn.execute<User[]>('SELECT user_id FROM tbl_users WHERE user_email = ?', [email]);
         if (users.length === 0) return { success: false, message: "User not found" };
         const userId = users[0].user_id;
 
-        // 2. Generate Token
-        // Format: XXXXXX-XXXXXX-XXXXXX-XXXXXX
         const generateSegment = () => {
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             let gen = "";
-            for (let i = 0; i < 6; i++) {
+            for (let i = 0; i < 6; i++)
                 gen += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
+
             return gen;
         };
 
         const token = `${generateSegment()}-${generateSegment()}-${generateSegment()}-${generateSegment()}`;
 
-        // 3. Insert
         await conn.execute(
             'INSERT INTO tbl_tokens (user_id, product_id, token, duration) VALUES (?, ?, ?, ?)',
             [userId, productId, token, duration]

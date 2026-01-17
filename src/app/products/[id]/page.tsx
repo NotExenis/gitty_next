@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FaArrowLeft, FaShoppingCart, FaCheck, FaServer, FaCode, FaChartLine, FaBox, FaShieldAlt, FaStar, FaInfoCircle } from "react-icons/fa";
 import { getUserTokens } from "@/app/actions/products";
 import ProductTabs from "@/components/ProductTabs";
+import CheckoutButton from "@/components/CheckoutButton";
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -115,10 +116,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                 </div>
                             </div>
 
-                            <button className="w-full bg-white text-black font-bold h-14 rounded-xl hover:bg-zinc-200 transition-all duration-300 flex items-center justify-center gap-3 shadow-lg shadow-white/5 group">
-                                <FaShoppingCart className="group-hover:scale-110 transition-transform" />
-                                <span>Add to Cart</span>
-                            </button>
+                            <CheckoutButton
+                                productId={displayProduct.id}
+                                productName={displayProduct.name}
+                                price={displayProduct.price}
+                            />
                         </div>
                     </div>
                 </div>

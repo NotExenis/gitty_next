@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { searchUsers, updateUserRole, getUserTokens, grantProduct, revokeToken, revokeAllUserTokens, User, AdminToken } from '../../actions/admin';
 import { FaSearch, FaUserShield, FaTrash, FaPlus, FaKey, FaDesktop, FaClock } from 'react-icons/fa';
-import { products } from '../../products/page'; // Get static product list for dropdown
+import { products } from '../../products/page';
 
 export default function AdminDashboard() {
     const [searchQuery, setSearchQuery] = useState('');
