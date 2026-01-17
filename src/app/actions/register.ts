@@ -3,14 +3,14 @@ import { redirect } from 'next/navigation';
 import { registerSchema, formState } from "../../../interfaces/interfaces";
 import { connect } from "../../../private/connection";
 
-export default async function registerAction (_state: formState, formData: FormData){
+export default async function registerAction(_state: formState, formData: FormData) {
     const validatedFields = registerSchema.safeParse({
         email: formData.get('email'),
         password: formData.get('password'),
         discordID: formData.get('discordID'),
     })
 
-    if(!validatedFields.success) {
+    if (!validatedFields.success) {
         return {
             errors: validatedFields.error.flatten().fieldErrors,
         }
@@ -30,8 +30,10 @@ export default async function registerAction (_state: formState, formData: FormD
         [email]
     )
 
-    if(Array.isArray(existingUser) && existingUser.length > 0) {
-       return; // TODO: show error on client possibly a post request or either in session mangement
+    if (Array.isArray(existingUser) && existingUser.length > 0) {
+        return {
+            message: "User with this email already exists."
+        }
     };
 
     await conn.execute(

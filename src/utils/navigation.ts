@@ -13,8 +13,7 @@ export const userNavigation: NavItem[] = [
 
 export const adminNavigation: NavItem[] = [
   ...userNavigation,
-  { name: "Admin Panel", href: "/admin/panel" },
-  { name: "Users", href: "/admin/users" },
+  { name: "Admin Panel", href: "/admin/admin_dashboard" },
 ];
 
 export const accountDropdownSignedOut: NavItem[] = [

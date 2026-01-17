@@ -1,9 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { FaShoppingCart, FaInfoCircle } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
 
-// Mock Data
-// Mock Data
 export const products = [
     {
         id: "billboards",
@@ -153,7 +151,32 @@ export const products = [
             }
         ],
         price: 19.99,
-        image: "/velocity.png"
+        image: "/masks.png"
+    },
+    {
+        id: "modernmenus",
+        name: "Modern Menus",
+        description: "Create immersive, interactive interfaces that replace your boring chest GUIs",
+        details: [
+            {
+                title: "Features",
+                content: [
+                    "Interactive Hover Effects - Buttons respond in real time with custom outlines, color fills, and layer swaps when players look at them.",
+                    "Logic and Scripting - Build complex menus with built in [if], [else], and [conditional] tags directly in your configuration. Nested if statements also supported.",
+                    "Full PlaceholderAPI Support - Parse placeholders in every action, text field, and conditional check to create personalized experiences. Display images, texts and other layers conditionally based on placeholders.",
+                    "Dynamic Layers - Stack images and text that change dynamically per-player based on any condition (stats, rank, etc.).",
+                    "Optimized Performance - Efficient packet based rendering ensures your server stays fast and lag free."
+                ],
+                icon: "star"
+            },
+            {
+                title: "Compatibility",
+                content: ["Supporting 1.8 - 1.21 versions."],
+                icon: "server"
+            }
+        ],
+        price: 24.99,
+        image: "/menus.png"
     }
 ];
 

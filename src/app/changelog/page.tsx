@@ -1,10 +1,16 @@
-import Link from "next/link";
 import ChangelogFeed from "@/components/Changelog";
-import { gettingcookie } from "@/app/layout"; // Importing the cookie logic
+import { getUserRole } from "@/app/actions/cookieFetcher"; // Importing the cookie logic
+import { getChangelogs } from "@/app/actions/changelogs";
 
 export default async function ChangelogPage() {
-    // Determine role (server-side)
-    const role = await gettingcookie();
+    const role = await getUserRole();
+    const postsResult = await getChangelogs();
+
+    // Serializable posts for client
+    const posts = postsResult.map(post => ({
+        ...post,
+        date: new Date(post.date).toISOString().split('T')[0] // formatting
+    }));
 
     return (
         <main className="min-h-screen pt-24 px-4 md:px-8 pb-12 relative overflow-x-hidden">
@@ -23,7 +29,7 @@ export default async function ChangelogPage() {
                     </p>
                 </div>
 
-                <ChangelogFeed role={role} />
+                <ChangelogFeed role={role} initialPosts={posts} />
             </div>
         </main>
     );

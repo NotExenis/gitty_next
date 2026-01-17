@@ -1,86 +1,94 @@
 'use client';
 
-import { Ubuntu } from "next/font/google";
-import {Button} from "@headlessui/react";
-import Card from "@/components/Card";
-import TextButton from "@/components/TextButton";
+import { Outfit } from "next/font/google";
 import { useActionState } from "react";
 import { signIn } from "../actions/login";
+import Link from 'next/link';
+import { Button } from "@headlessui/react";
 
-const ubuntu = Ubuntu({
-    weight: "500",
-    subsets: ['latin'],
-    display: 'swap',
-})
+const outfit = Outfit({ subsets: ['latin'] });
 
 export default function Login() {
     const [state, action, pending] = useActionState(signIn, undefined);
+
     return (
-      <div>
-        <section>
-            <div className="flex flex-grow items-center justify-center mx-auto mt-36">
-                <Card width="550" height="425">
-                    <div className="flex flex-col items-center justify-center">
-                        <label htmlFor="string" className={ubuntu.className + " p-4 text-xl text-white"}>SIGN IN TO YOUR ACCOUNT</label>
-                        <form className="items-center justify-center" method="POST" action={action}>
-                            <div>
-                                <label
-                                    htmlFor="email"
-                                    className="block mb-2 text-sm font-mono text-white/75"
-                                >
-                                    Your E-Mail
-                                </label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    className="bg-neutral-600/30 border-2 border-neutral-600/50 border-neutral font-mono placeholder:text-gray-300 text-white/75 rounded-lg focus:outline-none block w-[350px] p-2.5 transition duration-300 ease-in placeholder-gray-400 text-gray-300 focus:border-gray-400/50"
-                                    placeholder="email@email.com"
-                                >
-                                </input>
-                            </div>
-                            <div>
-                                <label
-                                    htmlFor="password"
-                                    className="mt-6 block mb-2 text-sm font-mono text-white/75"
-                                >
+        <div className={`flex min-h-[calc(100vh-80px)] items-center justify-center p-4 ${outfit.className}`}>
+            <div className="glass w-full max-w-md p-8 rounded-2xl relative overflow-hidden">
+                {/* Decorative background glow */}
+                <div className="absolute top-0 -left-1/2 w-full h-full bg-blue-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+
+                <div className="relative z-10">
+                    <div className="text-center mb-10">
+                        <h1 className="text-4xl font-black text-white mb-2 tracking-tight">Welcome Back</h1>
+                        <p className="text-neutral-400 text-sm font-medium">Sign in to access your dashboard</p>
+                    </div>
+
+                    <form action={action} className="space-y-6">
+                        <div>
+                            <label htmlFor="email" className="block text-xs font-bold text-neutral-400 uppercase tracking-widest mb-2 ml-1">
+                                Email Address
+                            </label>
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                placeholder="name@example.com"
+                                required
+                                className="w-full bg-neutral-900/50 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-neutral-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all duration-300"
+                            />
+                            {state?.errors?.email && (
+                                <p className="text-red-400 text-xs mt-2 font-medium ml-1">{state.errors.email}</p>
+                            )}
+                        </div>
+
+                        <div>
+                            <div className="flex justify-between items-center mb-2">
+                                <label htmlFor="password" className="block text-xs font-bold text-neutral-400 uppercase tracking-widest ml-1">
                                     Password
                                 </label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    id="password"
-                                    placeholder="••••••••"
-                                    className="bg-neutral-600/30 border-2 border-neutral-600/50 border-neutral font-mono placeholder:text-gray-300 text-white/75 rounded-lg focus:outline-none block w-[350px] p-2.5 transition duration-300 ease-in placeholder-gray-400 text-gray-300 focus:border-gray-400/50"
-                                >
-                                </input>
+                                <a href="#" className="text-xs text-blue-400 hover:text-blue-300 transition-colors">Forgot Password?</a>
                             </div>
-                            <div className="flex items-center justify-between allign mt-6">
-                                <a
-                                    href="#"
-                                    className="text-sm font-medium text-neutral-400 underline"
-                                >
-                                    Forgot password?
-                                </a>
+                            <input
+                                id="password"
+                                name="password"
+                                type="password"
+                                placeholder="••••••••"
+                                required
+                                className="w-full bg-neutral-900/50 border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-neutral-600 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all duration-300"
+                            />
+                            {state?.errors?.password && (
+                                <p className="text-red-400 text-xs mt-2 font-medium ml-1">{state.errors.password}</p>
+                            )}
+                        </div>
+
+                        {state?.message && (
+                            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3">
+                                <p className="text-red-400 text-sm text-center font-medium">{state.message}</p>
                             </div>
-                            <div className="flex flex-col items-center justify-center">
-                                <Button type="submit" className="mt-8">
-                                    <TextButton heading="SIGN IN"></TextButton>
-                                </Button>
-                                <div className="flex items-center justify-between allign mt-3">
-                                    <a
-                                        href="#"
-                                        className="text-sm font-medium text-neutral-400 underline"
-                                    >
-                                        Create Account
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
+                        )}
+
+                        <Button
+                            type="submit"
+                            disabled={pending}
+                            className={`w-full py-4 rounded-xl font-bold tracking-wide text-sm uppercase transition-all duration-300 shadow-lg shadow-blue-900/20 ${pending
+                                ? 'bg-neutral-800 text-neutral-500 cursor-not-allowed'
+                                : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white hover:scale-[1.02] hover:shadow-blue-500/25'
+                                }`}
+                        >
+                            {pending ? 'Signing In...' : 'Sign In'}
+                        </Button>
+                    </form>
+
+                    <div className="mt-8 text-center pt-6 border-t border-white/5">
+                        <p className="text-neutral-400 text-sm">
+                            Don&apos;t have an account?{' '}
+                            <Link href="/register" className="text-white hover:text-blue-400 font-bold transition-colors">
+                                Create Account
+                            </Link>
+                        </p>
                     </div>
-                </Card>
+                </div>
             </div>
-        </section>
-      </div>
+        </div>
     );
-  }
+}

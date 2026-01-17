@@ -1,34 +1,23 @@
 'use client';
 
 import React, { useState } from 'react';
-import { FaPlus, FaChevronDown, FaChevronUp, FaCalendar, FaTimes } from 'react-icons/fa';
+import { FaPlus, FaChevronDown, FaCalendar, FaTimes } from 'react-icons/fa';
+import { createChangelog } from '@/app/actions/changelogs';
+import { useRouter } from 'next/navigation';
 
-interface ChangelogPost {
+export interface ChangelogPost {
     id: number;
     title: string;
-    date: string;
     description: string;
+    date: string;
 }
 
-const INITIAL_POSTS: ChangelogPost[] = [
-    {
-        id: 1,
-        title: "Velocity v2.0 Release",
-        date: "2024-10-24",
-        description: "<p>We are thrilled to announce the release of <b>Velocity v2.0</b>!</p><br><p>This update includes:</p><ul><li>- Complete code rewrite</li><li>- <u>Significant</u> performance improvements</li><li>- New UI components</li></ul>"
-    },
-    {
-        id: 2,
-        title: "Security Patch v1.5.4",
-        date: "2024-09-15",
-        description: "<p>Addressed a critical vulnerability in the auth system. <b>Update immediately.</b></p>"
-    }
-];
-
-const ChangelogFeed: React.FC<{ role: string }> = ({ role }) => {
-    const [posts, setPosts] = useState<ChangelogPost[]>(INITIAL_POSTS);
+const ChangelogFeed: React.FC<{ role: string, initialPosts: ChangelogPost[] }> = ({ role, initialPosts }) => {
+    const [posts, setPosts] = useState<ChangelogPost[]>(initialPosts);
     const [expandedBlocks, setExpandedBlocks] = useState<number[]>([]);
     const [isCreating, setIsCreating] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const router = useRouter();
 
     // New Post State
     const [newTitle, setNewTitle] = useState('');
@@ -40,17 +29,32 @@ const ChangelogFeed: React.FC<{ role: string }> = ({ role }) => {
         );
     };
 
-    const handleCreate = () => {
-        const newPost: ChangelogPost = {
-            id: Date.now(),
-            title: newTitle,
-            date: new Date().toISOString().split('T')[0],
-            description: newDesc
-        };
-        setPosts([newPost, ...posts]);
-        setIsCreating(false);
-        setNewTitle('');
-        setNewDesc('');
+    const handleCreate = async () => {
+        if (!newTitle || !newDesc) return;
+        setIsSubmitting(true);
+
+        const formData = new FormData();
+        formData.append('title', newTitle);
+        formData.append('description', newDesc);
+
+        const result = await createChangelog(null, formData);
+
+        if (result.message === 'Success') {
+            const newPost: ChangelogPost = {
+                id: Date.now(), // Temporary ID until refresh
+                title: newTitle,
+                date: new Date().toISOString().split('T')[0],
+                description: newDesc
+            };
+            setPosts([newPost, ...posts]);
+            setIsCreating(false);
+            setNewTitle('');
+            setNewDesc('');
+            router.refresh(); // Refresh to get real data from DB
+        } else {
+            alert(result.message);
+        }
+        setIsSubmitting(false);
     };
 
     return (
@@ -70,7 +74,7 @@ const ChangelogFeed: React.FC<{ role: string }> = ({ role }) => {
                 )}
             </div>
 
-            {/* Creation Modal (Simplified as inline for now) */}
+            {/* Creation Modal */}
             {isCreating && (
                 <div className="glass p-6 rounded-xl mb-10 border border-blue-500/30 animate-in fade-in slide-in-from-top-4">
                     <div className="flex justify-between items-center mb-4">
@@ -95,7 +99,13 @@ const ChangelogFeed: React.FC<{ role: string }> = ({ role }) => {
 
                     <div className="flex justify-end gap-3">
                         <button onClick={() => setIsCreating(false)} className="px-4 py-2 text-zinc-400 hover:text-white text-sm font-bold">Cancel</button>
-                        <button onClick={handleCreate} className="px-6 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-white text-sm font-bold shadow-lg">Post Update</button>
+                        <button
+                            onClick={handleCreate}
+                            disabled={isSubmitting}
+                            className="px-6 py-2 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-white text-sm font-bold shadow-lg"
+                        >
+                            {isSubmitting ? 'Posting...' : 'Post Update'}
+                        </button>
                     </div>
                 </div>
             )}
@@ -139,6 +149,12 @@ const ChangelogFeed: React.FC<{ role: string }> = ({ role }) => {
                         </div>
                     );
                 })}
+
+                {posts.length === 0 && (
+                    <div className="text-center text-zinc-500 py-10">
+                        No updates yet.
+                    </div>
+                )}
             </div>
         </div>
     );
