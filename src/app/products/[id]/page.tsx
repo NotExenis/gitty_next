@@ -78,9 +78,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 mb-24">
                     {/* Left: Visual */}
-                    <div className="relative">
-                        <div className="aspect-square bg-gradient-to-br from-white/5 to-white/0 rounded-3xl border border-white/10 p-2 shadow-2xl relative overflow-hidden group">
-                            <div className="absolute inset-0 bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-2xl" />
+                    {/*<div className="relative">
+                        <div
+                            className="aspect-square bg-gradient-to-br from-white/5 to-white/0 rounded-3xl border border-white/10 p-2 shadow-2xl relative overflow-hidden group">
+                            <div
+                                className="absolute inset-0 bg-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-2xl"/>
                             <div className="relative w-full h-full rounded-2xl overflow-hidden">
                                 <Image
                                     src={displayProduct.image}
@@ -90,7 +92,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                 />
                             </div>
                         </div>
-                    </div>
+                    </div>*/}
 
                     {/* Right: Product Info & CTA */}
                     <div className="flex flex-col justify-center">
@@ -129,8 +131,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                 {displayProduct.details && displayProduct.details.length > 0 && (
                     <div className="border-t border-white/10 pt-24">
                         <h2 className="text-3xl font-bold text-white mb-12 flex items-center gap-3">
-                            <span className="w-8 h-1 bg-blue-500 rounded-full"></span>
-                            Features & Specifications
+                            Features
                         </h2>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

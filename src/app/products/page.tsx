@@ -25,7 +25,7 @@ export const products = [
             }
         ],
         price: 19.99,
-        image: "/velocity.png"
+        image: "/billboards.jpg"
     },
     {
         id: "calendars",
@@ -52,9 +52,9 @@ export const products = [
             }
         ],
         price: 9.99,
-        image: "/velocity.png"
+        image: "/calendars.jpg"
     },
-    {
+    /*{
         id: "spawners",
         name: "Spawners",
         description: "Everything you need for spawners and mobs, fully customizable and developer-friendly.",
@@ -88,7 +88,7 @@ export const products = [
         ],
         price: 19.99,
         image: "/velocity.png"
-    },
+    },*/
     {
         id: "hypebox",
         name: "Hypeboxes",
@@ -113,7 +113,7 @@ export const products = [
             }
         ],
         price: 19.99,
-        image: "/velocity.png"
+        image: "/hypeboxes3.jpg"
     },
     {
         id: "masks",

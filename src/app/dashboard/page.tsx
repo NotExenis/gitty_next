@@ -35,10 +35,6 @@ export default async function Dashboard() {
 
                 {ownedProducts.length > 0 ? (
                     <div>
-                        <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                            <FaCrown className="text-yellow-400" />
-                            Your Products
-                        </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {ownedProducts.map((product) => (
                                 <Link href={`/products/${product.id}`} key={product.id} className="group">

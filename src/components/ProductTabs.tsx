@@ -22,8 +22,8 @@ export default function ProductTabs({ product, tokens }: ProductTabsProps) {
     const availableTabs = [
         { id: 'licenses', label: 'Licenses', icon: FaKey },
         // So if product name is Tweaker, add "chat" to the available tabs
-        ...(product.id === 'Tweaker' ? [{ id: 'chat', label: 'Agent Chat', icon: FaComments }] : []),
-        { id: 'info', label: 'Product Info', icon: FaInfoCircle }, // Fallback to see info if needed
+        ...(product.id === 'Tweaker' ? [{ id: 'chat', label: 'Agent Chat', icon: FaComments }] : [])
+        //{ id: 'info', label: 'Product Info', icon: FaInfoCircle }, // Fallback to see info if needed
     ];
 
     const [activeTab, setActiveTab] = useState('licenses');
