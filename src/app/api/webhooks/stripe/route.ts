@@ -21,9 +21,10 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Webhook Error: Missing secret or signature" }, { status: 400 });
         }
         event = stripe.webhooks.constructEvent(body, sig, endpointSecret);
-    } catch (err: any) {
-        console.error(`Webhook Error: ${err.message}`);
-        return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
+    } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        console.error(`Webhook Error: ${message}`);
+        return NextResponse.json({ error: `Webhook Error: ${message}` }, { status: 400 });
     }
 
     // Handle the event

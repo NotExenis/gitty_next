@@ -1,7 +1,6 @@
 import { products } from "../page";
 import Link from "next/link";
-import Image from "next/image";
-import { FaArrowLeft, FaShoppingCart, FaCheck, FaServer, FaCode, FaChartLine, FaBox, FaShieldAlt, FaStar, FaInfoCircle } from "react-icons/fa";
+import { FaArrowLeft, FaCheck, FaServer, FaCode, FaChartLine, FaBox, FaShieldAlt, FaStar, FaInfoCircle } from "react-icons/fa";
 import { getUserTokens } from "@/app/actions/products";
 import ProductTabs from "@/components/ProductTabs";
 import CheckoutButton from "@/components/CheckoutButton";

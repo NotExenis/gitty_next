@@ -2,7 +2,7 @@ import { getOwnedProducts } from "../actions/products";
 import { products } from "../products/page"; // Import static product list
 import Link from "next/link";
 import Image from "next/image";
-import { FaCrown, FaArrowRight, FaBoxOpen } from "react-icons/fa";
+import { FaArrowRight, FaBoxOpen } from "react-icons/fa";
 
 export default async function Dashboard() {
     const ownedProductIds = await getOwnedProducts();

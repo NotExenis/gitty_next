@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { ProductToken } from '../../interfaces/interfaces';
 import TokenList from "@/components/TokenList";
-import { FaKey, FaComments, FaInfoCircle } from 'react-icons/fa';
+import { FaKey, FaComments } from 'react-icons/fa';
 
 interface ProductTabsProps {
     product: {
@@ -39,8 +39,8 @@ export default function ProductTabs({ product, tokens }: ProductTabsProps) {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
                             className={`flex items-center gap-3 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${isActive
-                                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20'
-                                    : 'hover:bg-white/5 text-zinc-400 hover:text-white'
+                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20'
+                                : 'hover:bg-white/5 text-zinc-400 hover:text-white'
                                 }`}
                         >
                             <tab.icon size={14} />
