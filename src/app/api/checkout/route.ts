@@ -1,9 +1,4 @@
 import { NextResponse } from "next/server";
-import Stripe from "stripe";
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-    apiVersion: "2025-12-15.clover",
-});
 
 export async function POST(req: Request) {
     try {
@@ -13,34 +8,28 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Missing product details" }, { status: 400 });
         }
 
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ["card"],
-            line_items: [
-                {
-                    price_data: {
-                        currency: "usd",
-                        product_data: {
-                            name: productName,
-                            metadata: {
-                                productId: productId
-                            }
-                        },
-                        unit_amount: Math.round(price * 100),
-                    },
-                    quantity: 1,
-                },
-            ],
-            mode: "payment",
-            success_url: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/dashboard?success=true&session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/products/${productId}?canceled=true`,
-            metadata: {
-                productId: productId,
-            },
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+        // Personal PayPal email needs to be provided in environment variables or replaced here
+        const paypalEmail = process.env.PAYPAL_EMAIL || "your-paypal-email@example.com";
+
+        // Generate PayPal Standard _xclick URL
+        const params = new URLSearchParams({
+            cmd: "_xclick",
+            business: paypalEmail,
+            item_name: productName || "Product",
+            amount: price.toString(),
+            currency_code: "USD",
+            return: `${baseUrl}/dashboard?success=true&productId=${productId}`,
+            cancel_return: `${baseUrl}/products/${productId}?canceled=true`,
+            item_number: productId,
+            no_shipping: "1", // Assuming it's a digital good based on the previous code
         });
 
-        return NextResponse.json({ url: session.url });
+        const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?${params.toString()}`;
+
+        return NextResponse.json({ url: paypalUrl });
     } catch (error) {
-        console.error("Stripe Checkout Error:", error);
+        console.error("PayPal Checkout Error:", error);
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }

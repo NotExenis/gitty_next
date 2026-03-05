@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FaShoppingCart, FaSpinner } from "react-icons/fa";
+import { FaPaypal, FaSpinner } from "react-icons/fa";
 
 interface CheckoutButtonProps {
     productId: string;
@@ -50,9 +50,9 @@ export default function CheckoutButton({ productId, productName, price }: Checko
             {loading ? (
                 <FaSpinner className="animate-spin" />
             ) : (
-                <FaShoppingCart className="group-hover:scale-110 transition-transform" />
+                <FaPaypal className="group-hover:scale-110 transition-transform" />
             )}
-            <span>{loading ? "Processing..." : "Buy Now"}</span>
+            <span>{loading ? "Processing..." : "Pay with PayPal"}</span>
         </button>
     );
 }
