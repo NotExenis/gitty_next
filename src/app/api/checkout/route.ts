@@ -8,7 +8,7 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Missing product details" }, { status: 400 });
         }
 
-        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:80";
         // Personal PayPal email needs to be provided in environment variables or replaced here
         const paypalEmail = process.env.PAYPAL_EMAIL || "your-paypal-email@example.com";
 
