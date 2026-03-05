@@ -4,6 +4,8 @@ import { FaArrowLeft, FaCheck, FaServer, FaCode, FaChartLine, FaBox, FaShieldAlt
 import { getUserTokens } from "@/app/actions/products";
 import ProductTabs from "@/components/ProductTabs";
 import CheckoutButton from "@/components/CheckoutButton";
+import { cookies } from "next/headers";
+import { decrypt } from "@/app/private/session";
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -13,6 +15,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
     // Fetch tokens for this product
     const tokens = await getUserTokens(id);
+
+    const cookieStore = await cookies();
+    const session = cookieStore.get("session")?.value;
+    const payload = session ? await decrypt(session) : null;
+    const isLoggedIn = !!payload?.userId;
 
     // Fallback logic for unknown products (if user owns them)
     let displayProduct = product;
@@ -121,6 +128,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                 productId={displayProduct.id}
                                 productName={displayProduct.name}
                                 price={displayProduct.price}
+                                isLoggedIn={isLoggedIn}
                             />
                         </div>
                     </div>

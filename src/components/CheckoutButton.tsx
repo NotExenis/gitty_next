@@ -2,17 +2,25 @@
 
 import { useState } from "react";
 import { FaPaypal, FaSpinner } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 interface CheckoutButtonProps {
     productId: string;
     productName: string;
     price: number;
+    isLoggedIn: boolean;
 }
 
-export default function CheckoutButton({ productId, productName, price }: CheckoutButtonProps) {
+export default function CheckoutButton({ productId, productName, price, isLoggedIn }: CheckoutButtonProps) {
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     const handleCheckout = async () => {
+        if (!isLoggedIn) {
+            router.push("/register");
+            return;
+        }
+
         setLoading(true);
         try {
             const response = await fetch("/api/checkout", {
