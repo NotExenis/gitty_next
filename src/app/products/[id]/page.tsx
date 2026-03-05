@@ -1,4 +1,4 @@
-import { products } from "../page";
+import { products } from "@/data/products";
 import Link from "next/link";
 import { FaArrowLeft, FaCheck, FaServer, FaCode, FaChartLine, FaBox, FaShieldAlt, FaStar, FaInfoCircle } from "react-icons/fa";
 import { getUserTokens } from "@/app/actions/products";

@@ -1,5 +1,5 @@
 import { getOwnedProducts } from "../actions/products";
-import { products } from "../products/page"; // Import static product list
+import { products } from "@/data/products";
 import Link from "next/link";
 import Image from "next/image";
 import { FaArrowRight, FaBoxOpen } from "react-icons/fa";
