@@ -1,0 +1,23 @@
+[Unit]
+Description=Gitty Next Node.js Application
+After=network.target
+
+[Service]
+# Run as the user who owns the files to avoid permission issues
+User=exenis
+Group=exenis
+
+# Directory where the app is located
+WorkingDirectory=/home/exenis/volkoff/gitty_next
+
+# Command to start the app.
+# Note: Verify your npm path with `which npm`. If you use nvm, this path will differ.
+ExecStart=/usr/bin/npm start
+
+# Restart automatically if it crashes
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
