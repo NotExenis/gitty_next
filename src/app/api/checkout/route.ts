@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { decrypt } from "@/app/private/session";
 
 export async function POST(req: Request) {
     try {
@@ -6,6 +8,14 @@ export async function POST(req: Request) {
 
         if (!productId || !price) {
             return NextResponse.json({ error: "Missing product details" }, { status: 400 });
+        }
+
+        const cookieStore = await cookies();
+        const session = cookieStore.get("session")?.value;
+        const payload = session ? await decrypt(session) : null;
+
+        if (!payload?.userId) {
+            return NextResponse.json({ redirect: "/register" });
         }
 
         const baseUrl = "https://velocitydev.xyz";//process.env.NEXT_PUBLIC_APP_URL || "http://localhost:80";

@@ -8,18 +8,13 @@ interface CheckoutButtonProps {
     productId: string;
     productName: string;
     price: number;
-    isLoggedIn: boolean;
 }
 
-export default function CheckoutButton({ productId, productName, price, isLoggedIn }: CheckoutButtonProps) {
+export default function CheckoutButton({ productId, productName, price }: CheckoutButtonProps) {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     const handleCheckout = async () => {
-        if (!isLoggedIn) {
-            router.push("/register");
-            return;
-        }
 
         setLoading(true);
         try {
@@ -36,6 +31,11 @@ export default function CheckoutButton({ productId, productName, price, isLogged
             });
 
             const data = await response.json();
+
+            if (data.redirect) {
+                router.push(data.redirect);
+                return;
+            }
 
             if (data.url) {
                 window.location.href = data.url;

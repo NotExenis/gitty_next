@@ -19,7 +19,6 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     const cookieStore = await cookies();
     const session = cookieStore.get("session")?.value;
     const payload = session ? await decrypt(session) : null;
-    const isLoggedIn = !!payload?.userId;
 
     // Fallback logic for unknown products (if user owns them)
     let displayProduct = product;
@@ -128,7 +127,6 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                                 productId={displayProduct.id}
                                 productName={displayProduct.name}
                                 price={displayProduct.price}
-                                isLoggedIn={isLoggedIn}
                             />
                         </div>
                     </div>
