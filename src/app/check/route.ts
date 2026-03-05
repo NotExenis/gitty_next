@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import moment from 'moment';
 import { connect } from '../../../private/connection';
-import { EmbedBuilder } from 'discord.js';
 
 function sha256(text: string) {
     return crypto.createHash('sha256').update(text).digest('hex');
@@ -31,15 +30,17 @@ export async function GET(req: NextRequest) {
 
         const hashedToken = sha256(token);
 
-        let [rows]: any = await conn.execute(`SELECT * FROM tbl_tokens WHERE token = ? OR token = ?`, [hashedToken, token]);
-        let tokens = rows as any[];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const [rows]: any = await conn.execute(`SELECT * FROM tbl_tokens WHERE token = ? OR token = ?`, [hashedToken, token]);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const tokens = rows as any[];
 
         if (tokens.length === 0) {
             await sendDenied(cleanIp, product);
             return NextResponse.json(null);
         }
 
-        let foundToken = tokens[0];
+        const foundToken = tokens[0];
 
         if (foundToken.duration !== 'infinite') {
             if (moment().isAfter(moment(foundToken.duration))) {
@@ -48,7 +49,7 @@ export async function GET(req: NextRequest) {
             }
         }
 
-        let hashedIp = sha256(cleanIp);
+        const hashedIp = sha256(cleanIp);
         let accepted = false;
 
         if (product.toLowerCase() === 'cht') {
@@ -80,13 +81,14 @@ export async function GET(req: NextRequest) {
 async function sendAccepted(ipAddress: string, product: string, user: string) {
     if (!process.env.DISCORD_TOKEN) return;
 
-    let memberText = user === "Free User" ? "Free User" : user;
+    const memberText = user === "Free User" ? "Free User" : user;
 
-    const embed = new EmbedBuilder()
-        .setAuthor({ name: product })
-        .setDescription(`:white_check_mark: **${ipAddress}** has been accepted for **${memberText}**`)
-        .setColor("#9EF798")
-        .setFooter({ text: `Authenticated | ${moment().format("LLL")}` });
+    const embed = {
+        author: { name: product },
+        description: `:white_check_mark: **${ipAddress}** has been accepted for **${memberText}**`,
+        color: 0x9EF798,
+        footer: { text: `Authenticated | ${moment().format("LLL")}` }
+    };
 
     try {
         await fetch('https://discord.com/api/v10/channels/1145002159126098011/messages', {
@@ -95,18 +97,19 @@ async function sendAccepted(ipAddress: string, product: string, user: string) {
                 'Authorization': `Bot ${process.env.DISCORD_TOKEN}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ embeds: [embed.toJSON()] })
+            body: JSON.stringify({ embeds: [embed] })
         });
-    } catch (e) { }
+    } catch { }
 }
 
 async function sendDenied(ipAddress: string, product: string) {
     if (!process.env.DISCORD_TOKEN) return;
 
-    const embed = new EmbedBuilder()
-        .setAuthor({ name: product })
-        .setDescription(`:x: **${ipAddress}** has been denied.`)
-        .setColor("#F97E7E");
+    const embed = {
+        author: { name: product },
+        description: `:x: **${ipAddress}** has been denied.`,
+        color: 0xF97E7E
+    };
 
     try {
         await fetch('https://discord.com/api/v10/channels/1145002159126098011/messages', {
@@ -115,7 +118,7 @@ async function sendDenied(ipAddress: string, product: string) {
                 'Authorization': `Bot ${process.env.DISCORD_TOKEN}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ embeds: [embed.toJSON()] })
+            body: JSON.stringify({ embeds: [embed] })
         });
-    } catch (e) { }
+    } catch { }
 }

@@ -8,9 +8,9 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Missing product details" }, { status: 400 });
         }
 
-        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:80";
+        const baseUrl = "https://velocitydev.xyz";//process.env.NEXT_PUBLIC_APP_URL || "http://localhost:80";
         // Personal PayPal email needs to be provided in environment variables or replaced here
-        const paypalEmail = process.env.PAYPAL_EMAIL || "your-paypal-email@example.com";
+        const paypalEmail = "amaryt02@gmail.com";//process.env.PAYPAL_EMAIL || "your-paypal-email@example.com";
 
         // Generate PayPal Standard _xclick URL
         const params = new URLSearchParams({

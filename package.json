@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"next dev -H 0.0.0.0 -p 80\" \"tsx src/discord/bot.ts\"",
+    "dev": "concurrently \"next dev -p 80\" \"tsx discord-bot/bot.ts\"",
     "build": "next build",
-    "start": "concurrently \"next start -H 0.0.0.0 -p 80\" \"tsx src/discord/bot.ts\"",
+    "start": "concurrently \"next start -p 80\" \"tsx discord-bot/bot.ts\"",
     "lint": "next lint",
-    "bot": "tsx src/discord/bot.ts"
+    "bot": "tsx discord-bot/bot.ts"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.0",
