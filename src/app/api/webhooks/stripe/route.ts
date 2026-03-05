@@ -3,11 +3,11 @@ import Stripe from "stripe";
 import { headers } from "next/headers";
 import { grantProduct } from "@/app/actions/admin.ts";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', {
     apiVersion: "2025-12-15.clover",
 });
 
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 
 export async function POST(req: Request) {
     const body = await req.text();

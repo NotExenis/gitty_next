@@ -17,7 +17,7 @@ export async function getOwnedProducts() {
         // Get distinct product_ids that the user has tokens for
         const [rows] = await conn.execute<ProductToken[]>(
             'SELECT DISTINCT product_id, user_id FROM tbl_tokens WHERE user_id = ?',
-            [payload.userId]
+            [payload.userId as string]
         );
         return rows.map(r => r.product_id);
     } catch (error) {
@@ -37,7 +37,7 @@ export async function getUserTokens(productId: string) {
     try {
         const [rows] = await conn.execute<ProductToken[]>(
             'SELECT * FROM tbl_tokens WHERE user_id = ? AND product_id = ? ORDER BY created_at DESC',
-            [payload.userId, productId]
+            [payload.userId as string, productId]
         );
         // Normalize boolean if it comes back as 0/1 number
         return rows.map(row => ({
